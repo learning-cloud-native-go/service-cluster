@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: serviceb-app
+  namespace: istio-system
+  labels:
+    app: serviceb-app
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - istio-system/service-gateway
+  http:
+  - match:
+    - uri:
+        exact: /serviceb/greet
+    rewrite:
+      uri: /greet
+    route:
+    - destination:
+        host: serviceb-app.serviceb.svc.cluster.local
+        port:
+          number: 8002
